@@ -1,4 +1,4 @@
-{
+{https://github.com/microsoft/vscode-docs.git
   "tool": "Credential Scanner",
   "suppressions": [
     {
