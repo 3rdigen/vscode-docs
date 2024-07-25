@@ -4,7 +4,7 @@ Area: sourcecontrol
 TOCTitle: Collaborate on GitHub
 ContentId: bd1be8cf-b745-4737-be48-db381ec3acc6
 PageTitle: Collaborate on GitHub
-DateApproved: 3/30/2023
+DateApproved: 07/03/2024
 MetaDescription: Working with GitHub Pull Requests and Issues in Visual Studio Code
 ---
 # Working with GitHub in VS Code
@@ -13,7 +13,7 @@ MetaDescription: Working with GitHub Pull Requests and Issues in Visual Studio C
 
 <a class="install-extension-btn" href="vscode:extension/GitHub.vscode-pull-request-github">Install the GitHub Pull Requests and Issues extension</a>
 
-To get started with the GitHub in VS Code, you'll need to install [Git](https://git-scm.com/download), [create a GitHub account](https://help.github.com/github/getting-started-with-github/signing-up-for-a-new-github-account) and install the [GitHub Pull Requests and Issues](https://marketplace.visualstudio.com/items?itemName=GitHub.vscode-pull-request-github) extension. In this topic, we'll demonstrate how you can use some of your favorite parts of GitHub without leaving VS Code.
+To get started with the GitHub in VS Code, you'll need to install [Git](https://git-scm.com/download), [create a GitHub account](https://docs.github.com/get-started/signing-up-for-github/signing-up-for-a-new-github-account) and install the [GitHub Pull Requests and Issues](https://marketplace.visualstudio.com/items?itemName=GitHub.vscode-pull-request-github) extension. In this topic, we'll demonstrate how you can use some of your favorite parts of GitHub without leaving VS Code.
 
 If you're new to source control or want to learn more about VS Code's basic Git support, you can start with the [Source Control](/docs/sourcecontrol/overview.md) topic.
 
@@ -45,7 +45,7 @@ When you do something that requires GitHub authentication, you'll see a prompt t
 
 ![Authentication Prompt](images/github/auth-prompt.png)
 
-Follow the steps to sign into GitHub and return to VS Code. If authenticating with an existing repository doesn't work automatically, you may need to manually provide a personal access token. See [Personal Access Token authentication](https://github.com/microsoft/vscode-pull-request-github/wiki#personal-access-token-authentication) for more information.
+Follow the steps to sign into GitHub and return to VS Code. Signing in with a personal access token (PAT) is only supported with GitHub Enterprise Server. If you're using GitHub Enterprise Server and want to use a PAT, then you can hit "cancel" on the sign in prompts until you are prompted for a PAT.
 
 Note that there are several ways to authenticate to GitHub, including using your username and password with two-factor authentication (2FA), a personal access token, or an SSH key. See [About authentication to GitHub](https://docs.github.com/github/authenticating-to-github/about-authentication-to-github) for more information and details about each option.
 
@@ -69,7 +69,7 @@ User suggestions are triggered by the "@" character and issue suggestions are tr
 
 ![User and Issue suggestions](images/github/user-issue-suggest.gif)
 
-The issues that appear in the suggestion can be configured with the **GitHub Issues: Queries** (`githubIssues.queries`) [setting](/docs/getstarted/settings.md). The queries use the [GitHub search syntax](https://help.github.com/articles/understanding-the-search-syntax).
+The issues that appear in the suggestion can be configured with the **GitHub Issues: Queries** (`githubIssues.queries`) [setting](/docs/getstarted/settings.md). The queries use the [GitHub search syntax](https://docs.github.com/search-github/getting-started-with-searching-on-github/understanding-the-search-syntax).
 
 You can also configure which files show these suggestions using the settings **GitHub Issues: Ignore Completion Trigger** (`githubIssues.ignoreCompletionTrigger`) and **GitHub Issues: Ignore User Completion Trigger** (`githubIssues.ignoreUserCompletionTrigger`). These settings take an array of [language identifiers](/docs/languages/identifiers.md) to specify the file types.
 
@@ -86,7 +86,7 @@ From the **Pull Requests** view you can view, manage, and create pull requests.
 
 ![Pull Request View](images/github/pull-request-view.png)
 
-The queries used to display pull requests can be configured with the **GitHub Pull Requests: Queries** (`githubPullRequests.queries`) setting and use the [GitHub search syntax](https://help.github.com/articles/understanding-the-search-syntax).
+The queries used to display pull requests can be configured with the **GitHub Pull Requests: Queries** (`githubPullRequests.queries`) setting and use the [GitHub search syntax](https://docs.github.com/search-github/getting-started-with-searching-on-github/understanding-the-search-syntax).
 
 ```json
 "githubPullRequests.queries": [
@@ -102,15 +102,17 @@ Once you have committed changes to your fork or branch, you can use the **GitHub
 
 ![Create Pull Request button in the Pull Request view](images/github/create-pull-request-button.png)
 
-A new **Create Pull Request** view will be displayed where you can select the repository and branch you'd like your pull request to target as well as fill in details such as the title, description, and whether it is a draft PR. If your repository has a pull request template, this will automatically be used for the description.
+A new **Create** view will be displayed where you can select the base repository and base branch you'd like your pull request to target as well as fill in the title and description. If your repository has a pull request template, this will automatically be used for the description.
+
+Use the buttons in the action bar at the top to add **Assignees**, **Reviewers**, **Labels** and a **Milestone**.
 
 ![Create Pull Request view](images/github/create-pull-request-view.png)
 
+The **Create** button menu allows you to select alternative create options, such as **Create Draft** or enable an **Auto-Merge** method.
+
 Once you select **Create**, if you have not already pushed your branch to a GitHub remote, the extension will ask if you'd like to publish the branch and provides a dropdown to select the specific remote.
 
-The **Create Pull Request** view now enters **Review Mode**, where you can review the details of the PR, add comments, reviewers, and labels, and merge the PR once it's ready.
-
-After the PR is merged, you'll have the option to delete both the remote and local branch.
+The **Create Pull Request** view now enters **Review Mode**, where you can review the details of the PR, add comments, and merge the PR once it's ready. After the PR is merged, you'll have the option to delete both the remote and local branch.
 
 ### Reviewing
 
@@ -118,7 +120,7 @@ Pull requests can be reviewed from the **Pull Requests** view. You can assign re
 
 ![Pull Request Description editor](images/github/pull-request-description-editor.png)
 
-From the **Description** page, you can also easily checkout the pull request locally using the **Checkout** button. This will switch VS Code to open the fork and branch of the pull request (visible in the Status bar) in **Review Mode** and add a new **Changes in Pull Request** view from which you can view diffs of the current changes as well as all commits and the changes within these commits. Files that have been commented on are decorated with a diamond icon. To view the file on disk, you can use the **Open File** inline action.
+From the **Description** page, you can also easily checkout the pull request locally using the **Checkout** button. This will switch VS Code to open the fork and branch of the pull request (visible in the Status bar) in Review Mode and add a new **Changes in Pull Request** view from which you can view diffs of the current changes as well as all commits and the changes within these commits. Files that have been commented on are decorated with a diamond icon. To view the file on disk, you can use the **Open File** inline action.
 
 ![Changes in Pull Request view](images/github/changes-view.png)
 
@@ -249,6 +251,6 @@ In VS Code, you can enhance your coding with artificial intelligence (AI), such 
 
 [GitHub Copilot](https://copilot.github.com/) is an AI-powered code completion tool that helps you write code faster and smarter. You can use the [GitHub Copilot extension](https://marketplace.visualstudio.com/items?itemName=GitHub.copilot) in VS Code to generate code, or to learn from the code it generates.
 
-![Copilot extension in the VS Code Marketplace](images/github/copilot-extension.png)
+[![GitHub Copilot extension in the VS Code Marketplace](images/github/copilot-extension.png)](https://marketplace.visualstudio.com/items?itemName=GitHub.copilot)
 
-You can learn more about how to get started with Copilot in the [Copilot documentation](/docs/editor/artificial-intelligence.md).
+You can learn more about how to get started with Copilot in the [Copilot documentation](/docs/editor/github-copilot.md).

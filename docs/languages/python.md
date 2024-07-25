@@ -13,11 +13,13 @@ Working with Python in Visual Studio Code, using the [Microsoft Python extension
 
 This article provides only an overview of the different capabilities of the Python extension for VS Code. For a walkthrough of editing, running, and debugging code, use the button below.
 
-<a class="next-topic-btn" href="/docs/python/python-tutorial">Python Hello World Tutorial</a>
+<a class="next-topic-btn" href="/docs/python/python-tutorial">Python Tutorial</a>
 
 ## Install Python and the Python extension
 
 The [tutorial](/docs/python/python-tutorial.md) guides you through installing Python and using the extension. You must install a Python interpreter yourself separately from the extension. For a quick install, use [Python from python.org](https://www.python.org/downloads/) and [install the extension from the VS Code Marketplace](https://marketplace.visualstudio.com/items?itemName=ms-python.python).
+
+>**Note**: To help get you started with Python development, you can use the [Python profile template](/docs/editor/profiles.md#python-profile-template) that includes useful extensions,  settings, and Python code snippets.
 
 Once you have a version of Python installed, select it using the **Python: Select Interpreter** command. If VS Code doesn't automatically locate the interpreter you're looking for, refer to [Environments - Manually specify an interpreter](/docs/python/environments.md#manually-specify-an-interpreter).
 
@@ -37,13 +39,13 @@ The Python extension then provides shortcuts to run Python code using the curren
 
 ![Using the run python file in terminal button](images/python/run-python-file-in-terminal-button.png)
 
-You can also run individual lines or a selection of code with the **Python: Run Selection/Line in Python Terminal** command (`kbstyle(Shift+Enter)`). If there isn't a selection, the line with your cursor will be run in the Python Terminal. An identical **Run Selection/Line in Python Terminal** command is available on the context menu for a selection in the editor. The same terminal will be used every time you run a selection or a line in the terminal/REPL, until that terminal is closed.
+You can also run individual lines or a selection of code with the **Python: Run Selection/Line in Python Terminal** command (`kbstyle(Shift+Enter)`). If there isn't a selection, the line with your cursor will be run in the Python Terminal. An identical **Run Selection/Line in Python Terminal** command is available on the context menu for a selection in the editor. The same terminal will be used every time you run a selection or a line in the terminal/REPL, until that terminal is closed. The same terminal is also used for **Run Python File in Terminal**. If that terminal is still running the REPL, you should exit the REPL (`exit()`) or switch to a different terminal before running a Python file.
 
 The Python extension automatically removes indents based on the first non-empty line of the selection, shifting all other lines left as needed.
 
 The command opens the Python Terminal if necessary; you can also open the interactive REPL environment directly using the **Python: Start REPL** command that activates a terminal with the currently selected interpreter and then runs the Python REPL.
 
-For a more specific walkthrough and other ways of running code, see the [run code tutorial](/docs/python/python-tutorial.md#run-hello-world).
+For a more specific walkthrough and other ways of running code, see the [run code tutorial](/docs/python/python-tutorial.md).
 
 ## Autocomplete and IntelliSense
 
@@ -57,11 +59,11 @@ IntelliSense quickly shows methods, class members, and documentation as you type
 
 [GitHub Copilot](https://copilot.github.com/) is an AI-powered code completion tool that helps you write code faster and smarter. You can use the [GitHub Copilot extension](https://marketplace.visualstudio.com/items?itemName=GitHub.copilot) in VS Code to generate code, or to learn from the code it generates.
 
-![Copilot extension in the VS Code Marketplace](images/python/copilot-extension.png)
+[![GitHub Copilot extension in the VS Code Marketplace](images/python/copilot-extension.png)](https://marketplace.visualstudio.com/items?itemName=GitHub.copilot)
 
 GitHub Copilot provides suggestions for languages beyond Python and a wide variety of frameworks, including JavaScript, TypeScript, Ruby, Go, C# and C++.
 
-You can learn more about how to get started with Copilot in the [Copilot documentation](/docs/editor/artificial-intelligence.md).
+You can learn more about how to get started with Copilot in the [Copilot documentation](/docs/editor/github-copilot.md).
 
 ## Linting
 
@@ -75,7 +77,7 @@ The Python extension can apply a number of different linters including Pylint, p
 
 ## Debugging
 
-No more `print` statement debugging! VS Code comes with great debugging support for Python, allowing you to set breakpoints, inspect variables, and use the debug console for an in-depth look at how your program is executing step by step. Debug a number of different types of Python applications, including multi-threaded, web, and remote applications.
+No more `print` statement debugging! VS Code comes with great debugging support for Python via the [Python Debugger extension](https://marketplace.visualstudio.com/items?itemName=ms-python.debugpy), allowing you to set breakpoints, inspect variables, and use the debug console for an in-depth look at how your program is executing step by step. Debug a number of different types of Python applications, including multi-threaded, web, and remote applications.
 
 For more specific information on debugging in Python, such as configuring your `launch.json` settings and implementing remote debugging, see [Debugging](/docs/python/debugging.md). General VS Code debugging information is found in the [debugging document](/docs/editor/debugging.md).
 
@@ -91,7 +93,7 @@ The Python extension automatically detects Python interpreters that are installe
 
 The current environment is shown on the right side of the VS Code Status Bar:
 
-![Status Bar showing a selected interpreter](images/python/selected-interpreter-status-bar.png)
+![Status Bar showing a selected interpreter](../python/images/shared/environment-in-status-bar.png)
 
 The Status Bar also indicates if no interpreter is selected:
 
@@ -125,10 +127,19 @@ In order to run tests, you must enable one of the supported testing frameworks i
 
 Once the tests have been discovered, VS Code provides a variety of commands (on the Status Bar, the Command Palette, and elsewhere) to run and debug tests. These commands also allow you to run individual test files and methods
 
-
 ## Configuration
 
 The Python extension provides a wide variety of settings for its various features. These are described on their relevant topics, such as [Editing code](/docs/python/editing.md), [Linting](/docs/python/linting.md), [Debugging](/docs/python/debugging.md), and [Testing](/docs/python/testing.md). The complete list is found in the [Settings reference](/docs/python/settings-reference.md).
+
+## Python profile template
+
+[Profiles](https://code.visualstudio.com/docs/editor/profiles) let you quickly switch your extensions, settings, and UI layout depending on your current project or task. To help you get started with Python development, you can use the [Python profile template](/docs/editor/profiles.md#python-profile-template), which is a curated profile with useful extensions, settings, and snippets. You can use the profile template as is or use it as a starting point to customize further for you own workflows.
+
+You select a profile template through the **Profiles** > **Create Profile...** dropdown:
+
+![Create Profile dropdown with profile templates](images/python/profile-template-dropdown.png)
+
+Once you select a profile template, you can review the settings and extensions, and remove individual items if you don't want to include them in your new Profile. After creating the new profile based on the template, changes made to settings, extensions, or UI are persisted in your profile.
 
 ## Other popular Python extensions
 

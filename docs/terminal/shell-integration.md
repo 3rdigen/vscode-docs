@@ -1,10 +1,10 @@
 ---
-Order: 3
+Order: 4
 Area: terminal
 TOCTitle: Shell Integration
 ContentId: a6a1652b-c0d8-4054-a2da-feb915eef2cc
 PageTitle: Terminal Shell Integration in Visual Studio Code
-DateApproved: 3/30/2023
+DateApproved: 07/03/2024
 MetaDescription: Visual Studio Code's embedded terminal can integrate with some shells to enhance the capabilities of the terminal.
 ---
 
@@ -14,7 +14,7 @@ Visual Studio Code has the ability to integrate with common shells, allowing the
 
 Supported shells:
 
-- Linux/macOS: bash, pwsh, zsh
+- Linux/macOS: bash, fish, pwsh, zsh
 - Windows: pwsh
 
 ## Installation
@@ -25,7 +25,7 @@ By default, the shell integration script should automatically activate on suppor
 
 This standard, easy way will not work for some advanced use cases like in sub-shells, through a regular `ssh` session (when not using the [Remote - SSH extension](/docs/remote/ssh.md)) or for some complex shell setups. The recommended way to enable shell integration for those is [manual installation](#manual-installation).
 
->**Note**: On Windows, you'll need PowerShell 7 (pwsh) for shell integration support. You can install via [https://aka.ms/PSWindows](https://aka.ms/PSWindows).
+>**Note**: Automatic injection may not work on old versions of the shell, for example older versions of fish do not support the `$XDG_DATA_DIRS` environment variable which is how injection works. You may still be able to manually install to get it working.
 
 ### Manual installation
 
@@ -39,6 +39,15 @@ Add the following to your `~/.bashrc` file. Run `code ~/.bashrc` in bash to open
 
 ```sh
 [[ "$TERM_PROGRAM" == "vscode" ]] && . "$(code --locate-shell-integration-path bash)"
+```
+
+**fish**
+
+Add the following to your `config.fish`. Run `code $__fish_config_dir/config.fish` in fish to open the file in VS Code.
+
+```sh
+string match -q "$TERM_PROGRAM" "vscode"
+and . (code --locate-shell-integration-path fish)
 ```
 
 **pwsh**
@@ -59,28 +68,15 @@ Add the following to your `~/.zshrc` file. Run `code ~/.zshrc` in bash to open t
 
 **Git Bash**
 
-⚠️ This is currently experimental and automatic injection is not supported
-
 Add the following to your `~/.bashrc` file. Run `code ~/.bashrc` in Git Bash to open the file in VS Code.
 
 ```sh
 [[ "$TERM_PROGRAM" == "vscode" ]] && . "$(code --locate-shell-integration-path bash)"
 ```
 
-**fish**
-
-⚠️ This is currently experimental and automatic injection is not supported
-
-Add the following to your `config.fish`. Run `code $__fish_config_dir/config.fish` in fish to open the file in VS Code.
-
-```sh
-string match -q "$TERM_PROGRAM" "vscode"
-and . (code --locate-shell-integration-path fish)
-```
-
 #### Portability versus performance
 
-The recommended approach above to install shell integration relies on executing our CLI to find the path to the shell integration script. This is great as it works cross-platform and also with all install types, provided `code` in on the `$PATH`. This currently launches Node.js in order to fetch the path, which can add a small delay to shell startup. To reduce this, you can inline the script above by resolving the path ahead of time and adding it directly into your init script.
+The above shell integration installation is cross-platform and compatible with any installation type if `code` is in the `$PATH`. However, this recommended approach starts Node.js to fetch the script path, leading to a slight delay in shell startup. To mitigate this delay, inline the script above by resolving the path ahead of time and adding it directly into your init script.
 
 ```sh
 # Output the executable's path first:
@@ -100,11 +96,19 @@ The decorations can be interacted with to give some contextual actions like re-r
 
 ![Clicking a successful command decoration shows a context menu containing items: Copy Output, Copy Output as HTML, Rerun Command and How does this work?](images/shell-integration/decoration-menu.png)
 
-The command and overview ruler decorations can be configured with the setting `terminal.integrated.shellIntegration.decorationsEnabled` setting.
+The command and overview ruler decorations can be configured with the `terminal.integrated.shellIntegration.decorationsEnabled` setting.
 
 ## Command navigation
 
-The commands detected by shell integration feed into the command navigation feature (`kbStyle(Ctrl/Cmd+Up)`, `kbStyle(Ctrl/Cmd+Down)`) to give it more reliable command positions. This feature allows for quick navigation between commands and selection of their output. Hold `kbStyle(Shift)` as well to select from the current position to the command.
+The commands detected by shell integration feed into the command navigation feature (`kbStyle(Ctrl/Cmd+Up)`, `kbStyle(Ctrl/Cmd+Down)`) to give it more reliable command positions. This feature allows for quick navigation between commands and selection of their output. To select from the current position to the command, you can also hold down `kbStyle(Shift)`, pressing `kbStyle(Shift+Ctrl/Cmd+Up)` and `kbStyle(Shift+Ctrl/Cmd+Down)`.
+
+## Sticky scroll
+
+The sticky scroll feature will "stick" the command that is partially showing at the top of the terminal, making it much easier to see what command that output belongs to. Clicking on the sticky scroll component will scroll to the command's location in the terminal buffer.
+
+![Sticky scroll will show the command at the top of the terminal viewport](images/shell-integration/sticky-scroll.png)
+
+This can be enabled with the `terminal.integrated.stickyScroll.enabled` setting.
 
 ## Quick fixes
 
@@ -120,7 +124,7 @@ Here are some of the built-in Quick Fixes:
 - When `git push` results in a suggestion to create a GitHub PR, suggest to open the link.
 - When a `General` or `cmd-not-found` PowerShell feedback provider triggers, suggest each suggestion.
 
-The Quick Fix feature also supports [audio cues](/docs/editor/accessibility.md#audio-cues) for additional feedback when a Quick Fix is available.
+The Quick Fix feature also supports [accessibility signals](/docs/editor/accessibility.md#accessibility-signals) for additional feedback when a Quick Fix is available.
 
 ## Run recent command
 
@@ -132,6 +136,7 @@ Some other functionality of the command:
 
 - By default the search mode is "contiguous search", meaning the search term must exactly match. The button on the right of the search input allows switching to fuzzy search.
 - In the current session section, there is a clipboard icon in the right of the Quick Pick that will open the command output in an editor.
+- The pin action in the right of the Quick Pick can pin the command to the top of the list.
 - `kbstyle(Alt)` can be held to write the text to the terminal without running it.
 - The amount of history stored in the previous session section is determined by the `terminal.integrated.shellIntegration.history` setting.
 
@@ -179,6 +184,14 @@ The following keybindings should work in PowerShell when shell integration is en
 - `kbstyle(Shift+End)`: Defaults to `SelectLine` on all platforms
 - `kbstyle(Shift+Home)`: Defaults to `SelectBackwardsLine` on all platforms
 
+## Enhanced accessibility
+
+The information that shell integration provides to VS Code is used to improve [accessibility in the terminal](/docs/editor/accessibility.md#terminal-accessibility). Some examples of enhancements are:
+
+- Navigation through detected commands in the accessible buffer (`kb(workbench.action.terminal.focusAccessibleBuffer)`)
+- An [audio cue](/docs/editor/accessibility.md#accessibility-signals) plays when a command fails.
+- Underlying text box synchronizing such that using the arrow and backspace keys behave more correctly.
+
 ## Supported escape sequences
 
 VS Code supports several custom escape sequences:
@@ -193,9 +206,11 @@ These sequences should be ignored by other terminals, but unless other terminals
 - `OSC 633 ; B ST` - Mark prompt end.
 - `OSC 633 ; C ST` - Mark pre-execution.
 - `OSC 633 ; D [; <exitcode>] ST` - Mark execution finished with an optional exit code.
-- `OSC 633 ; E ; <commandline> ST` - Explicitly set the command line.
+- `OSC 633 ; E ; <commandline> [; <nonce] ST` - Explicitly set the command line with an optional nonce.
 
   The E sequence allows the terminal to reliably get the exact command line interpreted by the shell. When this is not specified, the terminal may fallback to using the A, B and C sequences to get the command, or disable the detection all together if it's unreliable.
+
+  The optional nonce can be used to verify the sequence came from the shell integration script to prevent command spoofing. When the nonce is verified successfully, some protections before using the commands will be removed for an improved user experience.
 
   The command line can escape ASCII characters using the `\xAB` format, where AB are the hexadecimal representation of the character code (case insensitive), and escape the `\` character using `\\`. It's required to escape semi-colon (`0x3b`) and characters 0x20 and below and this is particularly important for new line and semi-colon.
 
@@ -223,13 +238,16 @@ VS Code supports Final Term's shell integration sequences, which allow non-VS Co
 - `OSC 133 ; C ST` - Mark pre-execution.
 - `OSC 133 ; D [; <exitcode>] ST` - Mark execution finished with an optional exit code.
 
-### SetMark 'OSC 1337 ; SetMark ST'
+### iTerm2 shell integration
 
-This sequence adds a mark to the left of the line it was triggered on and also adds an annotation to the scroll bar:
+The following sequences that iTerm2 pioneered are supported:
 
-![When the sequence is written to the terminal a small grey circle will appear to the left of the command, with a matching annotation in the scroll bar](images/shell-integration/setmark.png)
+- `OSC 1337 ; CurrentDir=<Cwd> S` - Sets the current working directory of the terminal, similar to `OSC 633 ; P ; Cwd=<Cwd> ST`.
+- `OSC 1337 ; SetMark ST` - Adds a mark to the left of the line it was triggered on and also adds an annotation to the scroll bar:
 
-These marks integrate with command navigation to make them easy to navigate to via ctrl/cmd+up and ctrl/cmd+down by default.
+    ![When the sequence is written to the terminal a small grey circle will appear to the left of the command, with a matching annotation in the scroll bar](images/shell-integration/setmark.png)
+
+    These marks integrate with command navigation to make them easy to navigate to via `kb(workbench.action.terminal.scrollToPreviousCommand)` and `kb(workbench.action.terminal.scrollToNextCommand)`.
 
 ## Common questions
 

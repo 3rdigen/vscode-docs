@@ -1,7 +1,7 @@
 ---
 # DO NOT TOUCH — Managed by doc writer
 ContentId: C83BB647-A37E-45CE-BA4C-837B397C2ABE
-DateApproved: 3/30/2023
+DateApproved: 07/03/2024
 
 # Summarize the whole topic in less than 300 characters for SEO purpose
 MetaDescription: To support lazy activation of Visual Studio Code extensions (plug-ins), your extension controls when it should be loaded through a set of Activation Events.
@@ -105,7 +105,7 @@ These are two more fine-grained `onDebug` activation events:
 
 ## workspaceContains
 
-This activation event is emitted and interested extensions will be activated whenever a folder is opened and the folder contains at least one file that matches a glob pattern.
+This activation event is emitted and interested extensions will be activated whenever a folder is opened and the folder contains at least one file that matches a [glob pattern](/docs/editor/glob-patterns).
 
 ```json
 ...
@@ -129,7 +129,7 @@ This activation event is emitted and interested extensions will be activated whe
 
 ## onView
 
-This activation event is emitted and interested extensions will be activated whenever a view of the specified id is expanded in the VS Code sidebar (Extensions or Source Control are examples of built-in views).
+This activation event is emitted and interested extensions will be activated whenever a view of the specified id is expanded in the VS Code sidebar. Built-in views do not emit an activation event.
 
 The activation event below will fire whenever a view with the `nodeDependencies` id is visible:
 

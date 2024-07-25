@@ -6,7 +6,7 @@ ContentId: 17345073-cb40-448c-a312-28982900f132
 PageTitle: Working with Jupyter Notebooks in Visual Studio Code
 DateApproved: 1/9/2023
 MetaDescription: Working with Jupyter Notebooks in Visual Studio Code.
-MetaSocialImage: images/tutorial/social.png
+MetaSocialImage: images/tutorial/python-social.png
 ---
 
 # Jupyter Notebooks in VS Code
@@ -27,7 +27,7 @@ Once the appropriate environment is activated, you can create and open a Jupyter
 
 ## Workspace Trust
 
-When getting started with Notebooks, you'll want to make sure that you are working in a trusted workspace. Harmful code can be embedded in notebooks and the [Workspace Trust](/docs/editor/workspace-trust.md) feature allows you to indicate which folders and their contents should allow or restrict automatic code execution.
+When getting started with Jupyter Notebooks, you'll want to make sure that you are working in a trusted workspace. Harmful code can be embedded in notebooks and the [Workspace Trust](/docs/editor/workspace-trust.md) feature allows you to indicate which folders and their contents should allow or restrict automatic code execution.
 
 If you attempt to open a notebook when VS Code is in an untrusted workspace running [Restricted Mode](/docs/editor/workspace-trust.md#restricted-mode), you will not be able to execute cells and rich outputs will be hidden.
 
@@ -49,15 +49,27 @@ If you have an existing Jupyter Notebook, you can open it by right-clicking on t
 
 ## Running cells
 
-Once you have a Notebook, you can run a code cell using the **Run** icon to the left of the cell and the output will appear directly below the code cell.
+### Run a single code cell
 
-You can also use keyboard shortcuts to run code. When in command or edit mode, use `kbstyle(Ctrl+Enter)` to run the current cell or `kbstyle(Shift+Enter)` to run the current cell and advance to the next.
+Once your code is added, you can run a cell using the **Run** icon to the left of the cell and the output will be displayed below the code cell.
 
 ![Run Jupyter code cell](images/jupyter/native-code-cells-03.png)
 
-You can run multiple cells by selecting **Run All**, **Run All Above**, or **Run All Below**.
+To run a selected code cell, you can also use keyboard shortcuts in both command and edit mode. `kbstyle(Ctrl+Enter)` runs the currently selected cell. `kbstyle(Shift+Enter)` runs the currently selected cell and inserts a new cell immediately below (focus moves to new cell). `kbstyle(Alt+Enter)` runs the currently selected cell and inserts a new cell immediately below (focus remains on current cell).
 
-![Run Jupyter code cells](images/jupyter/native-code-runs.png)
+### Run multiple code cells
+
+Running multiple code cells can be accomplished in many ways. You can use the double arrow in the main toolbar of the Notebook Editor to run all cells within the Notebook or by selecting **Run All**, **Run All Above**, or **Run All Below** above or below the current code cell.
+
+![Run multiple code cells](images/jupyter/native-code-runs.png)
+
+### Run cells in section
+
+To more easily run related cells in a notebook, you can run cells that are grouped together by a markdown section header with the **Run Cells in Section** action. This action is available on the notebook Outline view and for Sticky Scroll elements.
+
+Within Sticky Scroll elements, right-click the header of your choice, and run the section via the action in the context menu. Within the Outline view, select the toolbar icon that appears on hover or selection, and then run a single cell or a section of cells via the presented actions.
+
+<video src="images/jupyter/notebook-run-in-section.mp4" title="Run Cells in Section for notebook outline and Sticky Scroll" autoplay loop controls muted></video>
 
 ## Save your Jupyter Notebook
 
@@ -65,7 +77,7 @@ You can save your Jupyter Notebook using the keyboard shortcut `kbstyle(Ctrl+S)`
 
 ## Export your Jupyter Notebook
 
-You can export a Jupyter Notebook as a Python file (`.py`), a PDF, or an HTML file. To export, select the **Export** action on the main toolbar. You'll then be presented with a dropdown of file format options.
+You can export a Jupyter Notebook as a Python file (`.py`), a PDF, or an HTML file. To export, select **...** > **Export** on the main toolbar. You're then presented with a dropdown of file format options.
 
  ![Convert Jupyter Notebook to Python file](images/jupyter/native-toolbar-export.png)
 
@@ -77,7 +89,7 @@ The Notebook Editor makes it easy to create, edit, and run code cells within you
 
 ### Create a code cell
 
-By default, a blank Notebook will have an empty code cell for you to start with and an existing Notebook will place one at the bottom. Add your code to the empty code cell to get started.
+By default, a blank notebook will have an empty code cell for you to start with and an existing notebook will place one at the bottom. Add your code to the empty code cell to get started.
 
 ```python
 msg = "Hello world"
@@ -88,71 +100,53 @@ print(msg)
 
 ### Code cell modes
 
-While working with code cells, a cell can be in three states: unselected, command mode, and edit mode. The current state of a cell is indicated by a vertical bar to the left of a code cell and editor border. When no bar is visible, the cell is unselected.
+While working with code cells, a cell can be in three states: unselected, command mode, and edit mode. A vertical bar to the left of a code cell and editor border shows the current state of a cell. When no bar is visible, the cell is unselected. When a cell is selected, it can be in command mode or in edit mode.
 
 ![Unselected Jupyter code cell](images/jupyter/native-code-unselected-02.png)
 
-When a cell is selected, it can be in two different modes. It can be in command mode or in edit mode. When the cell is in command mode, it can be operated on and accept keyboard commands. When the cell is in edit mode, the cell's contents (code or Markdown) can be modified.
-
-When a cell is in command mode, a solid vertical bar will appear to the left of the cell.
+In command mode, a solid vertical bar will appear to the left of the cell. The cell can be operated on and accepts keyboard commands.
 
 ![Code cell in command mode](images/jupyter/native-code-cells-02.png)
 
- When you're in edit mode, the solid vertical bar is joined by a border around the cell editor.
+In edit mode, a solid vertical bar is joined by a border around the cell editor. The cell's contents (code or Markdown) can be modified.
 
 ![Code cell in edit mode](images/jupyter/native-code-cells-04.png)
 
-To move from edit mode to command mode, press the `kbstyle(Esc)` key. To move from command mode to edit mode, press the `kbstyle(Enter)` key. You can also use the mouse to **change the mode** by clicking the vertical bar to the left of the cell or out of the code/Markdown region in the code cell.
+To switch modes, you can use your keyboard or mouse. On your keyboard, press the `kbstyle(Enter)` key to move to edit mode or the `kbstyle(Esc)` key to move to command mode. With your mouse, click the vertical bar to the left of the cell or out of the code/Markdown region in the code cell.
 
 ### Add additional code cells
 
-Code cells can be added to a Notebook using the main toolbar, a cell's add cell toolbar (visible with hover), and through keyboard commands.
+You can add code cells using the main toolbar, a cell's add cell toolbar (visible with hover), and through keyboard commands.
 
 ![Add code cells](images/jupyter/native-add-cells.png)
 
- Using the plus icons in the main toolbar and a cell's hover toolbar will add a new cell directly below the currently selected cell.
+To add a new cell below the currently selected cell, use the plus icon in the main toolbar or a cell's hover toolbar.
 
-When a code cell is in command mode, the `kbstyle(A)` key can be used to add a cell above and the `kbstyle(B)` can be used to add a cell below the selected cell.
+When a code cell is in command mode, use the `kbstyle(A)` key to add a cell above and the `kbstyle(B)` key to add a cell below the selected cell.
 
 ### Select a code cell
 
-The selected code cell can be changed using the mouse, the up/down arrow keys on the keyboard, and the `kbstyle(J)` (down) and `kbstyle(K)` (up) keys. To use the keyboard, the cell must be in command mode.
+You can change a selected code cell using the mouse or the up/down arrow keys on the keyboard. When a code cell is in command mode, you can also use the `kbstyle(J)` key (down) and `kbstyle(K)` key (up).
 
 ### Select multiple code cells
 
-To select multiple cells, start with one cell in selected mode. If you want to select consecutive cells, hold down `kbstyle(Shift)` and click the last cell you want to select. If you want to select any group of cells, hold down `kbstyle(Ctrl)` and click the cells you'd like to add to your selection.
-
-Selected cells will be indicated by the filled background.
+To select multiple cells, start with one cell in selected mode. A filled background indicates selected cells. To select consecutive cells, hold down the `kbstyle(Shift)` key and click the last cell you want to select. To select any group of cells, hold down the `kbstyle(Ctrl)` key and click the cells you'd like to add to your selection.
 
 ![Multiselected cells](images/jupyter/multiselect.png)
 
-### Run a single code cell
-
-Once your code is added, you can run a cell using the **Run** icon to the left of the cell and the output will be displayed below the code cell.
-
-![Run Jupyter code cell](images/jupyter/native-code-run.png)
-
-You can also use keyboard shortcuts to run a selected code cell. `kbstyle(Ctrl+Enter)` runs the currently selected cell, `kbstyle(Shift+Enter)` runs the currently selected cell and inserts a new cell immediately below (focus moves to new cell), and `kbstyle(Alt+Enter)` runs the currently selected cell and inserts a new cell immediately below (focus remains on current cell). These keyboard shortcuts can be used in both command and edit modes.
-
-### Run multiple code cells
-
-Running multiple code cells can be accomplished in many ways. You can use the double arrow in the main toolbar of the Notebook Editor to run all cells within the Notebook or the **Run** icons with directional arrows in the cell toolbar to run all cells above or below the current code cell.
-
-![Run multiple code cells](images/jupyter/native-code-runs.png)
-
 ### Move a code cell
 
-Moving cells up or down within a notebook can be accomplished via dragging and dropping. For code cells, the drag and drop area is to the left of the cell editor as indicated below. For rendered Markdown cells, you may click anywhere to drag and drop cells.
+You can move cells up or down within a notebook via dragging and dropping. For code cells, the drag and drop area is to the left of the cell editor as indicated below. For rendered Markdown cells, you may click anywhere to drag and drop cells.
 
 ![Move a code cell](images/jupyter/code-move.png)
 
 To move multiple cells, you can use the same drag and drop areas in any cell included in the selection.
 
-You can also use the keyboard shortcuts `kbstyle(Alt+Arrow)` to move one or multiple selected cells.
+The keyboard shortcut `kbstyle(Alt+Arrow)` also moves one or multiple selected cells.
 
 ### Delete a code cell
 
-Deleting a code cell can be accomplished by using the **Delete** icon in the code cell toolbar or through the keyboard shortcut `kbstyle(dd)` when the selected code cell is in command mode.
+To delete code, you can use the **Delete** icon in the code cell toolbar. When the selected code cell is in command mode, you can use the keyboard shortcut `kbstyle(dd)`.
 
 ![Delete a code cell](images/jupyter/native-code-delete.png)
 
@@ -172,7 +166,7 @@ Once Markdown is set, you can enter Markdown formatted content to the code cell.
 
 ![Raw Markdown displayed in code cell](images/jupyter/native-markdown-not-rendered.png)
 
-To render Markdown cells, you can select the check mark in the cell toolbar, or use the `kbstyle(Ctrl+Enter)` and `kbstyle(Shift+Enter)` keyboard shortcuts.
+To render Markdown cells, you can select the check mark in the cell toolbar, or use the keyboard shortcuts `kbstyle(Ctrl+Enter)` and `kbstyle(Shift+Enter)`.
 
 ![How to render Markdown](images/jupyter/native-markdown-htr.png)
 
@@ -196,9 +190,17 @@ To toggle line numbering for the entire notebook, use `kbstyle(Shift+L)` when in
 
 ## Table of Contents
 
-To navigate through your notebook, open the File Explorer in the Activity bar. Then open the **Outline** tab in the Side bar.
+To navigate through your notebook, open the File Explorer in the Activity Bar. Then open the **Outline** tab in the Side Bar.
 
 ![Table of contents](images/jupyter/table-of-contents.png)
+
+You can use the filter control in the Outline view to include Markdown headers, code cells, and code cell symbols. The filters correspond to the following settings:
+
+- `notebook.outline.showMarkdownHeadersOnly`
+- `notebook.outline.showCodeCells`
+- `notebook.outline.showCodeCellSymbols`
+
+<video src="images/jupyter/notebook-outline-filters.mp4" title="Notebook Outline filter controls." autoplay loop controls muted></video>
 
 > **Note:** By default, the outline will only show Markdown. To show code cells, enable the following setting:  **Notebook > Outline: Show Code Cells**.
 
@@ -218,9 +220,11 @@ Within a Python Notebook, it's possible to view, inspect, sort, and filter the v
 
 ### Data Viewer
 
-For additional information about your variables, you can also double-click on a row or use the **Show variable in data viewer** button next to the variable for a more detailed view of a variable in the Data Viewer.
+For additional information about your variables, you can also double-click a row or use the **Show variable in data viewer** button next to the variable for a more detailed view of a variable in the Data Viewer.
 
 ![Data Viewer](images/jupyter/data-viewer.png)
+
+Alternatively, you can use the data viewing experience offered by other extensions like [Data Wrangler](https://marketplace.visualstudio.com/items?itemName=ms-toolsai.datawrangler). The Data Wrangler extension offers a rich user interface to show insights about your data and helps you perform data profiling, quality checks, transformations, and more. Learn more about the [Data Wrangler extension in our docs](/docs/datascience/data-wrangler.md).
 
 ### Filtering rows
 
@@ -276,11 +280,14 @@ If you want to use the full set of debugging features supported in VS Code, such
 2. Then select the **Debug Cell** button in the menu next to the **Run** button. This will run the cell in a debug session, and will pause on your breakpoints in any code that runs, even if it is in a different cell or a `.py` file.
 3. You can use the Debug view, Debug Console, and all the buttons in the Debug Toolbar as you normally would in VS Code.
 
+Note that debugging cells in a jupyter notebook does not use any of the debug configurations in launch.json.  It can be customized instead via settings such as `jupyter.debugJustMyCode`.
+
 ![Debug cell button](images/jupyter/debug-cell.png)
 
 ### Search through notebook
 
-You can search kbstyle(Ctrl/Cmd + F) through an entire notebook or you can search parts of your notebook by filtering your search options. When searching through your notebook, click on the Filter option (funnel icon) to search across:
+You can search through a notebook (or parts of it by filtering the search options) by using the keyboard shortcut `kbstyle(Ctrl/Cmd + F)`. Click the Filter option (funnel icon) to search across:
+
 - Markdown cell input (**Markdown Source**)
 - Markdown cell output (**Rendered Markdown**)
 - Code cell input (**Code Cell Source**)
@@ -313,3 +320,13 @@ To connect to a remote Jupyter server:
    ![Prompt to supply a Jupyter server URI](images/jupyter/enter-server-url.png)
 
 > **Note:** For added security, Microsoft recommends configuring your Jupyter server with security precautions such as SSL and token support. This helps ensure that requests sent to the Jupyter server are authenticated and connections to the remote server are encrypted. For guidance about securing a notebook server, refer to the [Jupyter documentation](https://jupyter-notebook.readthedocs.io/en/stable/public_server.html#securing-a-notebook-server).
+
+## Data Science profile template
+
+[Profiles](https://code.visualstudio.com/docs/editor/profiles) let you quickly switch your extensions, settings, and UI layout depending on your current project or task. To help you get started with Jupyter Notebooks, you can use the [Data Science profile template](/docs/editor/profiles.md#data-science-profile-template), which is a curated profile with useful extensions, settings, and snippets. You can use a profile template as is or use it as a starting point to customize further for you own workflows.
+
+You select a profile template through the **Profiles** > **Create Profile...** dropdown:
+
+![Create Profile dropdown with profile templates](images/jupyter/profile-template-dropdown.png)
+
+Once you select a profile template, you can review the settings and extensions, and remove individual items if you don't want to include them in your new profile. After creating the new profile based on the template, changes made to settings, extensions, or UI are persisted in your profile.

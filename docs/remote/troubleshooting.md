@@ -5,7 +5,7 @@ TOCTitle: Tips and Tricks
 PageTitle: Visual Studio Code Remote Development Troubleshooting Tips and Tricks
 ContentId: 42e65445-fb3b-4561-8730-bbd19769a160
 MetaDescription: Visual Studio Code Remote Development troubleshooting tips and tricks for SSH, Containers, and the Windows Subsystem for Linux (WSL)
-DateApproved: 3/30/2023
+DateApproved: 07/03/2024
 ---
 # Remote Development Tips and Tricks
 
@@ -34,10 +34,26 @@ To set up SSH key based authentication for your remote host. First we'll create 
 If you do not have a key, run the following command in a **local** terminal / PowerShell to generate an SSH key pair:
 
 ```bash
-ssh-keygen -t rsa -b 4096
+ssh-keygen -t ed25519 -b 4096
 ```
 
 > **Tip:** Don't have `ssh-keygen`? Install [a supported SSH client](#installing-a-supported-ssh-client).
+
+**Restrict the permissions on the private key file**
+
+* For macOS / Linux, run the following shell command, replacing the path to your private key if necessary:
+
+    ```
+    chmod 400 ~/.ssh/id_ed25519
+    ```
+
+* For Windows, run the following command in PowerShell to grant explicit read access to your username:
+
+    ```
+    icacls "privateKeyPath" /grant <username>:R
+    ```
+
+    Then navigate to the private key file in Windows Explorer, right-click and select **Properties**. Select the **Security** tab > **Advanced** > **Disable inheritance** > **Remove all inherited permissions from this object**.
 
 **Authorize your macOS or Linux machine to connect**
 
@@ -53,6 +69,17 @@ Run one of the following commands, in a **local terminal window** replacing user
     ```
 
 * Connecting to a **Windows** SSH host:
+
+  * The host uses OpenSSH Server and the user [belongs to the administrator group](https://learn.microsoft.com/en-us/windows-server/administration/openssh/openssh_server_configuration#authorizedkeysfile):
+
+    ```bash
+    export USER_AT_HOST="your-user-name-on-host@hostname"
+    export PUBKEYPATH="$HOME/.ssh/id_ed25519.pub"
+
+    ssh $USER_AT_HOST "powershell Add-Content -Force -Path \"\$Env:PROGRAMDATA\\ssh\\administrators_authorized_keys\" -Value '$(tr -d '\n\r' < "$PUBKEYPATH")'"
+    ```
+
+  * Otherwise:
 
     ```bash
     export USER_AT_HOST="your-user-name-on-host@hostname"
@@ -77,6 +104,17 @@ Run one of the following commands, in a **local PowerShell** window replacing us
     ```
 
 * Connecting to a **Windows** SSH host:
+
+  * The host uses OpenSSH Server and the user [belongs to the administrator group](https://learn.microsoft.com/en-us/windows-server/administration/openssh/openssh_server_configuration#authorizedkeysfile):
+
+    ```powershell
+    $USER_AT_HOST="your-user-name-on-host@hostname"
+    $PUBKEYPATH="$HOME\.ssh\id_ed25519.pub"
+
+    Get-Content "$PUBKEYPATH" | Out-String | ssh $USER_AT_HOST "powershell `"Add-Content -Force -Path `"`$Env:PROGRAMDATA\ssh\administrators_authorized_keys`" `""
+    ```
+
+  * Otherwise:
 
     ```powershell
     $USER_AT_HOST="your-user-name-on-host@hostname"
@@ -525,7 +563,7 @@ If you want to run these steps manually, or if the command isn't working for you
 
 ```bash
 # Kill server processes
-kill -9 `ps aux | \grep vscode-server | \grep USER | \grep -v grep | awk '{print $2}'`
+kill -9 $(ps aux | grep vscode-server | grep $USER | grep -v grep | awk '{print $2}')
 # Delete related files and folder
 rm -rf $HOME/.vscode-server # Or ~/.vscode-server-insiders
 ```
@@ -535,6 +573,10 @@ The VS Code Server was previously installed under `~/.vscode-remote` so you can 
 ### SSH into a remote WSL 2 host
 
 You may want to use SSH to connect to a WSL distro running on your remote machine. Check out [this guide](https://www.hanselman.com/blog/the-easy-way-how-to-ssh-into-bash-and-wsl2-on-windows-10-from-an-external-machine) to learn how to SSH into Bash and WSL 2 on Windows 10 from an external machine.
+
+### Filing an issue
+
+If you are having trouble using the Remote-SSH extension and think that you need to file an issue, first make sure that you have read through the documentation on this site, and then see the [troubleshooting wiki doc](https://github.com/microsoft/vscode-remote-release/wiki/Remote-SSH-troubleshooting) for information on grabbing the log file and trying more steps that may help narrow down the source of the problem.
 
 ## Dev Containers tips
 
@@ -804,7 +846,7 @@ Extensions may try to persist global data by looking for the `~/.config/Code` fo
 
 Extensions that require sign in may persist secrets using their own code. This code can fail due to missing dependencies. Even if it succeeds, the secrets will be stored remotely, which means you have to sign in for every new endpoint.
 
-**Resolution:** Extensions can use the `keytar` node module to solve this problem. See the [extension author's guide](/api/advanced-topics/remote-extensions#persisting-secrets) for details.
+**Resolution:** Extensions can use the [SecretStorage API](https://code.visualstudio.com/api/references/vscode-api#SecretStorage) to solve this problem. See the [extension author's guide](/api/advanced-topics/remote-extensions#persisting-secrets) for details.
 
 ### An incompatible extension prevents VS Code from connecting
 

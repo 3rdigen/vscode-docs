@@ -5,7 +5,7 @@ TOCTitle: FAQ
 PageTitle: Source Control, Git & GitHub in VS Code Frequently Asked Questions
 ContentId: 431b4458-34c4-4aba-a0ee-eaddf7cd91a1
 MetaDescription: Visual Studio Code's Frequently Asked Questions (FAQ) for Source Control, Git & GitHub in VS Code
-DateApproved: 3/30/2023
+DateApproved: 07/03/2024
 ---
 # Source Control FAQ
 
@@ -21,11 +21,11 @@ Revert your last commit with the **Git: Undo Last Commit** command. This will re
 
 The **Git: Rename Branch…** command will prompt you for the new name.
 
-### How to I undo a git add before committing?
+### How to undo a git add before committing?
 
 Added files listed in the **Staged Changes** can be unstaged with the **-** icon or by drag-and-drop.
 
-### How to I edit the most recent commit message?
+### How to edit the most recent commit message?
 
 To update the commit message for the last local commit use the **Git: Commit Staged (Amend)** command. It will open an editor to edit and save the last message. Make sure that no other changes are staged, as they would be included with the commit.
 
@@ -46,7 +46,7 @@ Use the [Azure Repos](https://marketplace.visualstudio.com/items?itemName=ms-vst
 
 This usually means there is no credential management configured in Git and you're not getting credential prompts for some reason.
 
-You can always set up a [credential helper](https://help.github.com/articles/caching-your-github-password-in-git/) in order to pull and push from a remote server without having VS Code prompt for your credentials each time.
+You can always set up a [credential helper](https://docs.github.com/get-started/getting-started-with-git/caching-your-github-credentials-in-git) in order to pull and push from a remote server without having VS Code prompt for your credentials each time.
 
 ### How can I sign in to Git with my Azure DevOps organization that requires multi-factor authentication?
 
@@ -61,7 +61,7 @@ VS Code only supports the [official Git distribution](https://git-scm.com/) for 
 
 VS Code automatically fetches changes from the server in order to present you with a summary of incoming changes. The Git authentication dialog is independent from VS Code itself and is a part of your current Git credential helper.
 
-One way to avoid these prompts is to set up a [credential helper](https://help.github.com/articles/caching-your-github-password-in-git/) that remembers your credentials.
+One way to avoid these prompts is to set up a [credential helper](https://docs.github.com/get-started/getting-started-with-git/caching-your-github-credentials-in-git) that remembers your credentials.
 
 Another option is to disable the auto fetch feature by changing the following setting: `"git.autofetch": false`.
 

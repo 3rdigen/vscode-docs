@@ -6,7 +6,7 @@ ContentId: baf150cd-6daf-4604-87db-a7c70a6706a7
 PageTitle:  Getting started with Visual Studio Code
 DateApproved: 5/4/2022
 MetaDescription: Download and learn the basics of Visual Studio Code.
-MetaSocialImage: images/opengraph/introvideos.png
+MetaSocialImage: images/opengraph/introvideos-social.png
 ---
 # Getting started with Visual Studio Code
 
@@ -60,7 +60,6 @@ Pick another video from the list: [Introductory Videos](/docs/getstarted/introvi
   * Zoom in (`kb(workbench.action.zoomIn)`)
 * Customize your editor with color themes.
   * **File** > **Preferences** > **Theme** > **Color Theme** (`kb(workbench.action.selectTheme)`)
-  * **Code** > **Preferences** > **Theme** > **Color Theme** on macOS
 
 ## Next video
 

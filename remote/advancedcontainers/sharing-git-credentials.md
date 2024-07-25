@@ -5,7 +5,7 @@ TOCTitle: Sharing git credentials
 PageTitle: Sharing git credentials
 ContentId: 4627daab-1bc2-4e3b-ba81-cd9319ec1230
 MetaDescription: Sharing git credentials
-DateApproved: 3/30/2023
+DateApproved: 07/03/2024
 ---
 
 # Sharing Git credentials with your container
@@ -32,7 +32,7 @@ There are some cases when you may be cloning your repository using SSH keys inst
 You can add your local SSH keys to the agent if it is running by using the `ssh-add` command. For example, run this from a terminal or PowerShell:
 
 ```bash
-ssh-add $HOME/.ssh/github_rsa
+ssh-add $HOME/.ssh/<your ssh key>
 ```
 
 On Windows and Linux, you may get an error because the agent is not running (macOS typically has it running by default). Follow these steps to resolve the problem:
@@ -66,9 +66,15 @@ if [ -z "$SSH_AUTH_SOCK" ]; then
         # Launch a new instance of the agent
         ssh-agent -s &> $HOME/.ssh/ssh-agent
    fi
-   eval `cat $HOME/.ssh/ssh-agent`
+   eval `cat $HOME/.ssh/ssh-agent` > /dev/null
+   ssh-add $HOME/.ssh/<your ssh key> 2> /dev/null
 fi
 ```
+On the last line, replace `<your ssh key>` with your specific ssh key.
+
+For example `ssh-add $HOME/.ssh/id_ed25519 2> /dev/null`
+
+If you encounter any issues, you may want to check the Dev Containers extension's [known limitations](/docs/devcontainers/containers.md#known-limitations).
 
 ## Sharing GPG Keys
 
@@ -85,6 +91,8 @@ If you do not have GPG set up, you can configure it for your platform:
   * Register a `pinentry` GUI in your WSL distro. `echo pinentry-program /mnt/c/Program\ Files\ \(x86\)/Gpg4win/bin/pinentry.exe > ~/.gnupg/gpg-agent.conf`
   * Reload the `gpg` agent in WSL. `gpg-connect-agent reloadagent /bye`
 
+>**Note**: For Windows user, the gpg signing key must be configured using the Windows GUI or CLI (powershell/cmd) and not in Git Bash. A Dev Container can't access the gpg keys set in Git Bash even though it is in your `~/.gnupg/` folder, accessible in the Windows Explorer.
+
 Next, install `gnupg2` in your container by updating your Dockerfile.
 
 For example:
@@ -99,6 +107,38 @@ Or if running as a [non-root user](/remote/advancedcontainers/add-nonroot-user.m
 RUN sudo apt-get update && sudo apt-get install gnupg2 -y
 ```
 
-The next time the container starts, your GPG keys should be accessible inside the container as well.
+To apply your configuration changes, you need to rebuild the container. You can do this by running **Dev Containers: Rebuild Container** from the Command Palette (`F1`). The next time the container starts, your GPG keys should be accessible inside the container as well.
 
-> **Note:** If you used `gpg` previously in the container, you may need to run **Dev Containers: Rebuild Container** for the update to take effect.
+>**Note**: If you used `gpg` previously in the container, you may need to run **Dev Containers: Rebuild Container** for the update to take effect.
+
+### Using GPG >= 2.4.1
+
+As of GPG version 2.4.1, fresh installations use `use-keyboxd` by default, which changes how keys are managed. Instead of using `pubring.kbx`, keys are maintained by the `keyboxd` process.
+
+VS Code expects `~/.gnupg/pubring.kbx` to exist for accessing GPG keys. With `use-keyboxd` enabled, `pubring.kbx` is no longer used, which makes the keys inaccessible to your dev container.
+
+
+Use the following temporary workaround to disable `use-keyboxd` and continue to use `pubring.kbx`:
+
+1. Export your keys
+   ```bash
+   gpg --export > all-keys.asc
+   gpg --export-secret-keys > all-secret-keys.asc
+   ```
+2. Disable `use-keyboxd`
+
+   Edit the configuration file `~/.gnupg/common.conf` and comment out the following line:
+   ```plaintext
+   use-keyboxd
+   ```
+   Change it to:
+   ```plaintext
+   # use-keyboxd
+   ```
+3. Import your keys back into `pubring.kbx`
+   ```bash
+   gpg --import all-keys.asc
+   gpg --import all-secret-keys.asc
+   ```
+
+After completing these steps, your GPG keys are now accessible from within your dev container.
